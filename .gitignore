@@ -1,3 +1,7 @@
+database
+database_data
+server
+
 # IntelliJ project files
 .idea
 *.iml
