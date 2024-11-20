@@ -2,6 +2,7 @@ The database now uses mariadb. After initializing the database you have to run t
 
 You also have to extract the gamedata (maps, etc) and put it in the [gamedata](gamedata) directory. This is easiest done on Windows using the [official binaries](https://github.com/mangoszero/server/releases/latest) and Git Bash or Cygwin.
 
+This is working well on my Raspberry Pi 3 with 1 GB of RAM, running on a 8 GB SD card (this is a little on the small size but if you use Raspberry Pi OS Lite you should have about 1 GB left over after setting this up).
 
 
 
@@ -29,3 +30,66 @@ docker attach mangoszero_server_1
 ```
 
 To detach, press Ctrl+p and then Ctrl+q.
+
+### Set up systemd service to start on startup
+
+This starts the docker containers on tty2 on startup.
+
+```shell
+cd mangos-docker/mangoszero
+
+cat << EOF | sudo tee /etc/systemd/system/mangoszero.service
+[Unit]
+Description=mangoszero
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=on-failure
+User=root
+Group=docker
+TimeoutStopSec=60
+StandardInput=tty
+StandardOutput=tty
+TTYPath=/dev/tty2
+WorkingDirectory=$(pwd)
+ExecStart=$(pwd)/start.sh
+ExecStop=$(which docker-compose) stop
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable mangoszero.service
+sudo systemctl start mangoszero.service
+sudo systemctl status mangoszero.service
+```
+
+### Connect with mysql
+
+```shell
+mysql --protocol=tcp --user=root -pmangos realmd
+update realmlist set address='192.168.1.71', localAddress='192.168.1.71';
+```
+
+### Save docker images
+
+```shell
+docker image save mangoszero-realmd mangoszero-server | xz -9 > mangoszero-$(date +%F).tar.xz
+```
+
+Load:
+
+```shell
+cat mangoszero-2024-11-20.tar.xz | xz -d | docker image load
+```
+
+### Backup whole directory
+
+```shell
+sudo tar cJf mangos-docker.tar.xz mangos-docker
+
+# restore:
+tar xJf /media/usb/mangos/mangos-docker.tar.xz
+```
