@@ -11,23 +11,23 @@ services:
       MARIADB_USER: mangos
       MARIADB_PASSWORD: mangos
       MARIADB_ROOT_PASSWORD: mangos
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect"]
 
   realmd:
-    depends_on:
-      - database
     image: mangoszero-realmd:latest
     build: ./realmd
     ports:
       - "3724:3724"
     environment:
       LOGIN_DATABASE_INFO: database;3306;root;mangos;realmd
+    depends_on:
+      database:
+        condition: service_healthy
 
   server:
     tty: true
     stdin_open: true
-    depends_on:
-      - database
-      - realmd
     image: mangoszero-server:latest
     build: ./mangosd
     volumes:
@@ -41,4 +41,6 @@ services:
       LOGIN_DATABASE_INFO: database;3306;root;mangos;realmd
       WORLD_DATABASE_INFO: database;3306;root;mangos;mangos0
       CHARACTER_DATABASE_INFO: database;3306;root;mangos;character0
-
+    depends_on:
+      database:
+        condition: service_healthy
