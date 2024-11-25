@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-if [ -f etc/mangosd.conf.dist ]; then
+if [ ! -f etc/mangosd.conf ]; then
   mv etc/mangosd.conf.dist etc/mangosd.conf
 fi
 

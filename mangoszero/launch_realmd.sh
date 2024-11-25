@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -f etc/realmd.conf.dist ]; then
+if [ ! -f etc/realmd.conf ]; then
   mv etc/realmd.conf.dist etc/realmd.conf
 fi
 
