@@ -1,7 +1,11 @@
 #!/bin/bash
 
-mv etc/realmd.conf.dist etc/realmd.conf
+if [ -f etc/realmd.conf.dist ]; then
+  mv etc/realmd.conf.dist etc/realmd.conf
+fi
 
 sed -i "s/^LoginDatabaseInfo *=.*$/LoginDatabaseInfo = $LOGIN_DATABASE_INFO/" etc/realmd.conf
+
+set -x
 
 ./bin/realmd -c etc/realmd.conf
