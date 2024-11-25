@@ -20,11 +20,13 @@ FROM debian:12
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y openssl libmariadbd19 libmariadb3
 
-EXPOSE 3724
 COPY --from=builder /server/install /server/install
 WORKDIR /server/install
 
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/server/install/lib
+
+EXPOSE 3724
+EXPOSE 8085
 
 # Use a docker volume when running the image to populate this file:
 CMD ["./launch.sh"]
