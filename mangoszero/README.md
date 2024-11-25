@@ -10,8 +10,7 @@ This is working well on my Raspberry Pi 3 with 1 GB of RAM, running on a 8 GB SD
 sudo apt update
 sudo apt install -y mariadb-client docker.io docker-compose
 
-docker-compose build --progress=plain realmd
-docker-compose build --progress=plain server
+docker-compose build --progress=plain
 
 docker-compose up database
 git clone https://github.com/mangoszero/database.git --recursive
@@ -70,13 +69,16 @@ sudo systemctl status mangoszero.service
 
 ```shell
 mysql --protocol=tcp --user=root -pmangos realmd
+```
+
+```sql
 update realmlist set address='192.168.1.71', localAddress='192.168.1.71';
 ```
 
-### Save docker images
+### Save docker image
 
 ```shell
-docker image save mangoszero-realmd mangoszero-server | xz -9 > mangoszero-$(date +%F).tar.xz
+docker image save mangoszero | xz -9 > mangoszero-$(date +%F).tar.xz
 ```
 
 Load:

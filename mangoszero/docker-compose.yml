@@ -15,10 +15,12 @@ services:
       test: ["CMD", "healthcheck.sh", "--connect"]
 
   realmd:
-    image: mangoszero-realmd:latest
-    build: ./realmd
+    image: mangoszero:latest
+    build: .
     ports:
       - "3724:3724"
+    volumes:
+      - ./launch_realmd.sh:/server/install/launch.sh:ro
     environment:
       LOGIN_DATABASE_INFO: database;3306;root;mangos;realmd
     depends_on:
@@ -28,15 +30,16 @@ services:
   server:
     tty: true
     stdin_open: true
-    image: mangoszero-server:latest
-    build: ./mangosd
-    volumes:
-      - ./gamedata/maps:/server/install/etc/maps
-      - ./gamedata/vmaps:/server/install/etc/vmaps
-      - ./gamedata/mmaps:/server/install/etc/mmaps
-      - ./gamedata/dbc:/server/install/etc/dbc
+    image: mangoszero:latest
+    build: .
     ports:
       - "8085:8085"
+    volumes:
+      - ./launch_mangosd.sh:/server/install/launch.sh:ro
+      - ./gamedata/maps:/server/install/etc/maps:ro
+      - ./gamedata/vmaps:/server/install/etc/vmaps:ro
+      - ./gamedata/mmaps:/server/install/etc/mmaps:ro
+      - ./gamedata/dbc:/server/install/etc/dbc:ro
     environment:
       LOGIN_DATABASE_INFO: database;3306;root;mangos;realmd
       WORLD_DATABASE_INFO: database;3306;root;mangos;mangos0
