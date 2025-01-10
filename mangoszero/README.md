@@ -22,13 +22,34 @@ docker-compose up -d realmd
 docker-compose up -d server
 ```
 
+
+### Console commands
+
 To attach to the server container to execute mangos commands, run:
 
 ```shell
 docker attach mangoszero_server_1
 ```
 
-To detach, press Ctrl+p and then Ctrl+q.
+To detach, press Ctrl+P and then Ctrl+Q. **Do not use Ctrl+D since that will shut down the server!!**
+
+Here are some common commands:
+
+```
+account create theusername thepassword
+```
+
+More commands here: https://github.com/MeulenG/mangos-cheat-sheet
+
+
+### Docker logs
+
+Check the logs with:
+
+```shell
+docker-compose logs --tail=100 -t server
+```
+
 
 ### Set up systemd service to start on startup
 
@@ -65,6 +86,7 @@ sudo systemctl start mangoszero.service
 sudo systemctl status mangoszero.service
 ```
 
+
 ### Connect with mysql
 
 ```shell
@@ -74,6 +96,7 @@ mysql --protocol=tcp --user=root -pmangos realmd
 ```sql
 update realmlist set address='192.168.1.71', localAddress='192.168.1.71';
 ```
+
 
 ### Save docker image
 
@@ -86,6 +109,7 @@ Load:
 ```shell
 cat mangoszero-2024-11-20.tar.xz | xz -d | docker image load
 ```
+
 
 ### Backup whole directory
 

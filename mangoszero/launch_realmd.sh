@@ -1,11 +1,12 @@
 #!/bin/bash
 
-if [ ! -f etc/realmd.conf ]; then
-  mv etc/realmd.conf.dist etc/realmd.conf
+if [[ ! -f /mangosconf/realmd.conf ]]; then
+  mv etc/realmd.conf.dist /mangosconf/realmd.conf
 fi
 
-sed -i "s/^LoginDatabaseInfo *=.*$/LoginDatabaseInfo = $LOGIN_DATABASE_INFO/" etc/realmd.conf
+sed -i "s/^LoginDatabaseInfo *=.*$/LoginDatabaseInfo = $LOGIN_DATABASE_INFO/" /mangosconf/realmd.conf
+
 
 set -x
 
-./bin/realmd -c etc/realmd.conf
+./bin/realmd -c /mangosconf/realmd.conf
