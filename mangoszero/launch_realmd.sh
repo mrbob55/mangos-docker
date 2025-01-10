@@ -9,4 +9,4 @@ sed -i "s/^LoginDatabaseInfo *=.*$/LoginDatabaseInfo = $LOGIN_DATABASE_INFO/" /m
 
 set -x
 
-./bin/realmd -c /mangosconf/realmd.conf
+exec ./bin/realmd -c /mangosconf/realmd.conf

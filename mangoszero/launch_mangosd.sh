@@ -16,4 +16,4 @@ sed -i "s/^CharacterDatabaseInfo *=.*$/CharacterDatabaseInfo = $CHARACTER_DATABA
 
 set -x
 
-./bin/mangosd -c /mangosconf/mangosd.conf -a /mangosconf/ahbot.conf
+exec ./bin/mangosd -c /mangosconf/mangosd.conf -a /mangosconf/ahbot.conf
