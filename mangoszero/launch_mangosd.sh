@@ -2,6 +2,8 @@
 
 if [[ ! -f /mangosconf/mangosd.conf ]]; then
   mv etc/mangosd.conf.dist /mangosconf/mangosd.conf
+  # Lower the default LogLevel from "Full/Debug" to "Basic&Error"
+  sed -i 's/^\(LogLevel *= *\)3$/\12/' /mangosconf/mangosd.conf
 fi
 
 if [[ ! -f /mangosconf/ahbot.conf ]]; then
