@@ -11,6 +11,9 @@ services:
       MARIADB_USER: mangos
       MARIADB_PASSWORD: mangos
       MARIADB_ROOT_PASSWORD: mangos
+    logging:
+      options:
+        max-size: 10m
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect"]
 
@@ -24,6 +27,9 @@ services:
       - ./launch_realmd.sh:/server/install/launch.sh:ro
     environment:
       LOGIN_DATABASE_INFO: database;3306;root;mangos;realmd
+    logging:
+      options:
+        max-size: 10m
     depends_on:
       database:
         condition: service_healthy
@@ -46,6 +52,9 @@ services:
       LOGIN_DATABASE_INFO: database;3306;root;mangos;realmd
       WORLD_DATABASE_INFO: database;3306;root;mangos;mangos0
       CHARACTER_DATABASE_INFO: database;3306;root;mangos;character0
+    logging:
+      options:
+        max-size: 10m
     depends_on:
       database:
         condition: service_healthy
