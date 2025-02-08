@@ -7,7 +7,7 @@ fi
 
 set -x
 
-cp bin/tools/* /wow/
+cp ../bin/tools/* /wow/
 
 cd /wow
 

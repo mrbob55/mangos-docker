@@ -23,8 +23,7 @@ services:
     ports:
       - "3724:3724"
     volumes:
-      - ./mangosconf:/mangosconf
-      - ./launch_realmd.sh:/server/install/launch.sh:ro
+      - ./workdir/realmd:/server/install/workdir
     environment:
       LOGIN_DATABASE_INFO: database;3306;root;mangos;realmd
     logging:
@@ -42,12 +41,7 @@ services:
     ports:
       - "8085:8085"
     volumes:
-      - ./mangosconf:/mangosconf
-      - ./launch_mangosd.sh:/server/install/launch.sh:ro
-      - ./gamedata/maps:/server/install/etc/maps:ro
-      - ./gamedata/vmaps:/server/install/etc/vmaps:ro
-      - ./gamedata/mmaps:/server/install/etc/mmaps:ro
-      - ./gamedata/dbc:/server/install/etc/dbc:ro
+      - ./workdir/server:/server/install/workdir
     environment:
       LOGIN_DATABASE_INFO: database;3306;root;mangos;realmd
       WORLD_DATABASE_INFO: database;3306;root;mangos;mangos0

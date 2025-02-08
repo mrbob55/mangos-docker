@@ -23,7 +23,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y openssl libmariadbd19 libmariadb3
 
 COPY --from=builder /server/install /server/install
-WORKDIR /server/install
+RUN mkdir -p /server/install/workdir
+WORKDIR /server/install/workdir
 
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/server/install/lib
 

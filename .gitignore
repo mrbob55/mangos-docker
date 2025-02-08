@@ -2,8 +2,6 @@ database
 database_data
 server
 *.xz
-*/mangosconf/*.conf.dist
-*/mangosconf/*.conf
 
 Thumbs.db
 *.DS_Store

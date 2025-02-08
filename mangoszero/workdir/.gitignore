@@ -1,0 +1,7 @@
+*
+!.gitignore
+!realmd
+!server
+!gamedata
+!launch.sh
+!README.md
