@@ -3,15 +3,17 @@ FROM debian:12 AS builder
 ARG THREAD_COUNT="-j4"
 
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y git build-essential cmake openssl libssl-dev libmariadb-dev libmariadbd19 libmariadb3 libmysql++-dev libreadline-dev
+RUN apt-get update && apt-get install -y git build-essential cmake openssl libssl-dev libmariadb-dev libmariadbd19 libmariadb3 libmysql++-dev libreadline-dev bzip2 pkgconf
 
 WORKDIR /
-RUN git clone https://github.com/mangoszero/server.git --recursive
+RUN git clone --recursive https://github.com/mangoszero/server.git /mangoszero
+
+RUN mkdir -p /server
 WORKDIR /server
-RUN cmake . -DBUILD_TOOLS=No -DCONF_INSTALL_DIR=/server/install/etc
+RUN cmake /mangoszero -DCMAKE_INSTALL_PREFIX=/server/install -DCONF_INSTALL_DIR=/server/install/etc
 RUN make ${THREAD_COUNT}
 RUN make install ${THREAD_COUNT}
-
+RUN chmod +x /server/install/bin/tools/ExtractResources.sh
 
 
 

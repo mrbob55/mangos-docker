@@ -1,6 +1,6 @@
 The database now uses mariadb. After initializing the database you have to run the [InstallDatabases.sh](https://github.com/mangoszero/database/blob/master/InstallDatabases.sh) script manually outside of docker, just point it on the database running in docker.
 
-You also have to extract the gamedata (maps, etc) and put it in the [gamedata](gamedata) directory. This is easiest done on Windows using the [official binaries](https://github.com/mangoszero/server/releases/latest) and Git Bash or Cygwin.
+You also have to extract the gamedata (maps, etc) and put it in the [gamedata](gamedata) directory. This is easiest done on Windows using the [official binaries](https://github.com/mangoszero/server/releases/latest) and Git Bash or Cygwin. You can also do it using the docker image (see below).
 
 This is working well on my Raspberry Pi 3 with 1 GB of RAM, running on a 8 GB SD card (this is a little on the small size but if you use Raspberry Pi OS Lite you should have about 1 GB left over after setting this up).
 
@@ -11,6 +11,9 @@ sudo apt update
 sudo apt install -y mariadb-client docker.io docker-compose
 
 docker-compose build --progress=plain
+
+# To extract the gamedata using the docker image, run: (the extracted files will be created in the game directory)
+docker run -it -v ~/Downloads/"World of Warcraft 1.12":/wow -v ./launch_extract_gamedata.sh:/server/install/launch.sh mangoszero
 
 docker-compose up database
 git clone https://github.com/mangoszero/database.git --recursive
