@@ -1,15 +1,8 @@
 #!/usr/bin/env python3
 
-# This script can convert characters exported using .pdump
-# from the mangoszero format to cmangos-classic.
-# At least the way the format was in February 2025.
-# It's pretty janky but it seems to mostly work!
-# The durability of items are unfortunately set to 0, and enchantments are not kept.
+# Not sure how to handle itemTextId exactly..
 
-# Invoke it like this:
-# ./pdump-converter.py < ../mangoszero/workdir/server/mycharacter.pdump > ../cmangos-classic/workdir/server/mycharacter.pdump
-
-import fileinput, sys
+import fileinput, sys, pprint
 
 for line in fileinput.input():
 
@@ -26,7 +19,8 @@ for line in fileinput.input():
         sys.stdout.write(s+");\n")
         # continue
 
-    elif line.startswith('INSERT INTO `character_spell_cooldown`'):
+    elif line.startswith('INSERT INTO `character_spell_cooldown`') or line.startswith('INSERT INTO `character_ticket`'):
+        # ignore these tables
         continue
 
     elif line.startswith('INSERT INTO `mail`'):
@@ -64,15 +58,25 @@ for line in fileinput.input():
         sys.stdout.write("'"+data[21]+"', ") # flags
         sys.stdout.write("'") # enchantments
         for i in range(22, 43):
-            sys.stdout.write("0 ")
-            # sys.stdout.write(data[i]+" ")
+            sys.stdout.write(data[i]+" ")
         sys.stdout.write("', ") # enchantments
         sys.stdout.write("'0', ") # randomPropertyId
-        sys.stdout.write("'0', ") # durability
-        sys.stdout.write("'0');\n") # itemTextId
-        # sys.stdout.write("'"+data[57]+"');") # itemTextId
-        # sys.stdout.write(line) # itemTextId
-        # sys.stdout.write("\n")
+        sys.stdout.write("'"+data[46]+"', ") # durability
+        sys.stdout.write("'0');\n") # itemTextId ?????
+
+        # Use to more easily inspect values:
+        # data_with_index = [{'index':i, 'data':x} for i,x in enumerate(data)]
+        # sys.stderr.write(pprint.pformat(data_with_index))
+
+    elif line.startswith('INSERT INTO `character_honor_cp`'):
+        # Remove `used` from:
+        # INSERT INTO `character_honor_cp` (`guid`,`victim_type`,`victim`,`honor`,`date`,`type`,`used`) VALUES ('1', '3', '11748', '27', '45695', '2', '0');
+        s, sep, line = line.partition(' VALUES ')
+        sys.stdout.write("INSERT INTO `character_honor_cp` (`guid`,`victim_type`,`victim`,`honor`,`date`,`type`) VALUES ")
+        values = line.split(',')
+        values.pop()
+        values[len(values)-1] += ');\n'
+        sys.stdout.write(','.join(values))
 
     else:
         sys.stdout.write(line)
