@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+  database:
+    image: mariadb:11
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./database_data:/var/lib/mysql
+    environment:
+      MARIADB_USER: mangos
+      MARIADB_PASSWORD: mangos
+      MARIADB_ROOT_PASSWORD: mangos
+    logging:
+      options:
+        max-size: 10m
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect"]
+
+  realmd:
+    image: cmangos-classic:latest
+    build: .
+    ports:
+      - "3724:3724"
+    volumes:
+      - ./workdir/realmd:/server/install/workdir
+    environment:
+      LOGIN_DATABASE_INFO: database;3306;mangos;mangos;classicrealmd
+    logging:
+      options:
+        max-size: 10m
+    depends_on:
+      database:
+        condition: service_healthy
+
+  server:
+    tty: true
+    stdin_open: true
+    image: cmangos-classic:latest
+    build: .
+    ports:
+      - "8085:8085"
+    volumes:
+      - ./workdir/server:/server/install/workdir
+    environment:
+      LOGIN_DATABASE_INFO: database;3306;mangos;mangos;classicrealmd
+      WORLD_DATABASE_INFO: database;3306;mangos;mangos;classicmangos
+      CHARACTER_DATABASE_INFO: database;3306;mangos;mangos;classiccharacters
+      LOGS_DATABASE_INFO: database;3306;mangos;mangos;classiclogs
+    logging:
+      options:
+        max-size: 10m
+    depends_on:
+      database:
+        condition: service_healthy
