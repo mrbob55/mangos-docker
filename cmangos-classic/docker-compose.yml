@@ -25,7 +25,7 @@ services:
     volumes:
       - ./workdir/realmd:/server/install/workdir
     environment:
-      LOGIN_DATABASE_INFO: database;3306;mangos;mangos;classicrealmd
+      LOGIN_DATABASE_INFO: database;3306;root;mangos;classicrealmd
     logging:
       options:
         max-size: 10m
@@ -43,10 +43,10 @@ services:
     volumes:
       - ./workdir/server:/server/install/workdir
     environment:
-      LOGIN_DATABASE_INFO: database;3306;mangos;mangos;classicrealmd
-      WORLD_DATABASE_INFO: database;3306;mangos;mangos;classicmangos
-      CHARACTER_DATABASE_INFO: database;3306;mangos;mangos;classiccharacters
-      LOGS_DATABASE_INFO: database;3306;mangos;mangos;classiclogs
+      LOGIN_DATABASE_INFO: database;3306;root;mangos;classicrealmd
+      WORLD_DATABASE_INFO: database;3306;root;mangos;classicmangos
+      CHARACTER_DATABASE_INFO: database;3306;root;mangos;classiccharacters
+      LOGS_DATABASE_INFO: database;3306;root;mangos;classiclogs
     logging:
       options:
         max-size: 10m
