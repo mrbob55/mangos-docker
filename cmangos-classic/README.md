@@ -127,13 +127,3 @@ Load:
 ```shell
 cat cmangos-classic-2024-11-20.tar.xz | xz -d | docker image load
 ```
-
-
-### Backup whole directory
-
-```shell
-sudo tar cJf mangos-docker.tar.xz mangos-docker
-
-# restore:
-tar xJf /media/usb/mangos/mangos-docker.tar.xz
-```
