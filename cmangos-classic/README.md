@@ -44,7 +44,7 @@ docker-compose up server
 To attach to the server container to execute mangos commands, run:
 
 ```shell
-docker attach cmangos_classic_server_1
+docker attach cmangos-classic_server_1
 ```
 
 To detach, press Ctrl+P and then Ctrl+Q. **Do not use Ctrl+D since that will shut down the server!!**
