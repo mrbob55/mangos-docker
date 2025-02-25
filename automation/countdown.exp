@@ -1,0 +1,40 @@
+#!/usr/bin/expect
+
+set username automationuser
+set password automationpass
+
+spawn telnet 127.0.0.1 3443
+
+expect "Username: "
+send -- "$username\r"
+expect "Password: "
+send -- "$password\r"
+expect "+Logged in.\r"
+
+# Can't figure out how to get this to work:
+# set prompt "mangos>$"
+
+expect "mangos>"
+send -- "saveall\r"
+expect "All players saved.\r"
+expect "mangos>"
+
+for {set i 10} {$i > 0} {incr i -1} {
+  send -- "announce The server will restart in $i minutes!\r"
+  expect "mangos>"
+  sleep 60
+}
+
+for {set i 10} {$i > 0} {incr i -1} {
+  send -- "announce The server will restart momentarily!!!\r"
+  expect "mangos>"
+  sleep 1
+}
+
+send -- "saveall\r"
+expect "All players saved.\r"
+expect "mangos>"
+
+sleep 3
+
+close

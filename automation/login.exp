@@ -1,0 +1,16 @@
+#!/usr/bin/expect
+
+set username automationuser
+set password automationpass
+
+spawn telnet 127.0.0.1 3443
+
+expect "Username: "
+send -- "$username\r"
+expect "Password: "
+send -- "$password\r"
+expect "+Logged in.\r"
+
+expect "mangos>"
+
+interact
