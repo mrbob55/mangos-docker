@@ -4,7 +4,7 @@ services:
   database:
     image: mariadb:11
     ports:
-      - "3306:3306"
+      - 3306:3306
     volumes:
       - ./database_data:/var/lib/mysql
     environment:
@@ -21,7 +21,7 @@ services:
     image: cmangos-classic:latest
     build: .
     ports:
-      - "3724:3724"
+      - 3724:3724
     volumes:
       - ./workdir/realmd:/server/install/workdir
     environment:
@@ -39,7 +39,8 @@ services:
     image: cmangos-classic:latest
     build: .
     ports:
-      - "8085:8085"
+      - 8085:8085
+      - 3443:3443
     volumes:
       - ./workdir/server:/server/install/workdir
     environment:
