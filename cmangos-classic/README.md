@@ -82,7 +82,6 @@ Requires=docker.service
 After=docker.service
 
 [Service]
-Restart=on-failure
 User=root
 Group=docker
 TimeoutStopSec=60
@@ -92,6 +91,8 @@ TTYPath=/dev/tty2
 WorkingDirectory=$(pwd)
 ExecStart=$(pwd)/start.sh
 ExecStop=$(which docker-compose) stop
+Restart=on-failure
+RestartSec=1m
 
 [Install]
 WantedBy=multi-user.target
