@@ -29,6 +29,8 @@ services:
     ulimits:
       # https://github.com/mserajnik/vmangos-deploy/commit/cfff3d5495d51901135d627354865f6b0b419e29
       nofile: 1024
+      # Disable core dumps on crashes:
+      core: 0
     logging:
       options:
         max-size: 10m
@@ -53,6 +55,8 @@ services:
     ulimits:
       # https://github.com/mserajnik/vmangos-deploy/commit/cfff3d5495d51901135d627354865f6b0b419e29
       nofile: 1024
+      # Disable core dumps on crashes:
+      core: 0
     logging:
       options:
         max-size: 10m
