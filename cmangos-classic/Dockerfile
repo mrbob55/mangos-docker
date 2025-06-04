@@ -20,7 +20,7 @@ RUN make install ${THREAD_COUNT}
 FROM debian:12
 
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y openssl libmariadbd19 libmariadb3
+RUN apt-get update && apt-get install -y --no-install-recommends openssl libmariadbd19 libmariadb3
 
 COPY --from=builder /server/install /server/install
 RUN mkdir -p /server/install/workdir

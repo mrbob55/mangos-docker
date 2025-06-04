@@ -4,6 +4,8 @@ database_data
 server
 *.xz
 *.pdump
+mysqldump
+mariadb-dump
 
 Thumbs.db
 *.DS_Store
